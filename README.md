@@ -4,7 +4,7 @@
 
 ValidationException: ExpressionAttributeNames can only be specified when using expressions
     at throwDefaultError (/auth-backend/node_modules/@smithy/smithy-client/dist-cjs/index.js:839:20)
-    at /Users/benbavar/auth-backend/node_modules/@smithy/smithy-client/dist-cjs/index.js:848:5
+    at /auth-backend/node_modules/@smithy/smithy-client/dist-cjs/index.js:848:5
     at de_CommandError (/auth-backend/node_modules/@aws-sdk/client-dynamodb/dist-cjs/index.js:2230:14)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
     at async /auth-backend/node_modules/@smithy/middleware-serde/dist-cjs/index.js:35:20
