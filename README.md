@@ -1,6 +1,6 @@
 /auth-backend/node_modules/@smithy/smithy-client/dist-cjs/index.js:839\
 &emsp;  const response = new exceptionCtor({\
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;^
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&nbsp;^
 
 ValidationException: ExpressionAttributeNames can only be specified when using expressions\
 &emsp;    at throwDefaultError (/auth-backend/node_modules/@smithy/smithy-client/dist-cjs/index.js:839:20)\
