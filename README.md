@@ -1,4 +1,4 @@
-/auth-backend/node_modules/@smithy/smithy-client/dist-cjs/index.js:839
+/auth-backend/node_modules/@smithy/smithy-client/dist-cjs/index.js:839\
   const response = new exceptionCtor({
                    ^
 
