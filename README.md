@@ -13,16 +13,16 @@ ValidationException: ExpressionAttributeNames can only be specified when using e
 &emsp;    at async /auth-backend/node_modules/@smithy/middleware-retry/dist-cjs/index.js:320:38\
 &emsp;    at async /auth-backend/node_modules/@aws-sdk/middleware-logger/dist-cjs/index.js:34:22\
 &emsp;    at async getPassword (file:///auth-backend/controllers/acct-controller.js:174:28) {\
-  '$fault': 'client',\
-  '$metadata': {\
-    httpStatusCode: 400,\
-    requestId: 'RJVIB72GL39PBR5DHPEPQIFQTRVV4KQNSO5AEMVJF66Q9ASUAAJG',\
-    extendedRequestId: undefined,\
-    cfId: undefined,\
-    attempts: 1,\
-    totalRetryDelay: 0\
+&ensp;  '$fault': 'client',\
+&ensp;  '$metadata': {\
+&emsp;    httpStatusCode: 400,\
+&emsp;    requestId: 'RJVIB72GL39PBR5DHPEPQIFQTRVV4KQNSO5AEMVJF66Q9ASUAAJG',\
+&emsp;    extendedRequestId: undefined,\
+&emsp;    cfId: undefined,\
+&emsp;    attempts: 1,\
+&emsp;    totalRetryDelay: 0\
   },\
-  __type: 'com.amazon.coral.validate#ValidationException'\
+&ensp;  __type: 'com.amazon.coral.validate#ValidationException'\
 }\
 \
 Node.js v21.6.2
