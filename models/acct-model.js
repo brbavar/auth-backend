@@ -55,19 +55,25 @@ const getUserData = (reqPayload) => {
 };
 
 const changeUserData = (reqPayload) => {
-  console.log(`attributes of reqPayload = ${Object.keys(reqPayload)}`);
-  console.log(`values of reqPayload = ${Object.values(reqPayload)}`);
+  // console.log(`attributes of reqPayload = ${Object.keys(reqPayload)}`);
+  // console.log(`values of reqPayload = ${Object.values(reqPayload)}`);
 
   const key = { Email: reqPayload.Email };
   dynamoInput.Key = key;
 
+  console.log(`reqPayload.Email = ${reqPayload.Email}`);
+  console.log(`key = ${key}`);
+  console.log(`dynamoInput.Key = ${dynamoInput.Key}`);
+
   const attr = reqPayload.AttributeName;
-  console.log(`attr = ${attr}`);
-  console.log(`reqPayload[attr] = ${reqPayload[attr]}`);
+
+  // console.log(`attr = ${attr}`);
+  // console.log(`reqPayload[attr] = ${reqPayload[attr]}`);
+
   // if (reqPayload[attr] == true || reqPayload[attr] == false) {
   dynamoInput.ExpressionAttributeValues = { ':v': `${reqPayload[attr]}` };
-  dynamoInput.ExpressionAttributeNames = { '#p': attr };
-  dynamoInput.UpdateExpression = 'SET #p = :v';
+  // dynamoInput.ExpressionAttributeNames = { '#p': attr };
+  dynamoInput.UpdateExpression = `SET ${attr} = :v`;
   // } else dynamoInput.UpdateExpression = `SET ${attr} = ${reqPayload[attr]}`;
 
   console.log(dynamoInput.UpdateExpression);

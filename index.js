@@ -17,7 +17,7 @@ import {
   logIn,
   sendPasswordResetEmail,
   getPassword,
-  resetPassword
+  resetPassword,
 } from './controllers/acct-controller.js';
 
 dotenv.config();
@@ -30,7 +30,7 @@ const readPaths = [
   '/names-of-users',
   '/emails/:Email/passwords/:Password',
   '/check-if-reset-sendable/:Email',
-  '/get-password/:Email',
+  '/get-password/:Email/:CurrentPassword',
 ];
 
 const readHandlers = [askToScan, logIn, sendPasswordResetEmail, getPassword];

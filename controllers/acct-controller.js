@@ -155,7 +155,7 @@ const sendPasswordResetEmail = async (req, res) => {
   const resToGetUserData = await getUserData(req.params);
   const userData = resToGetUserData.Item;
 
-  if (userData)
+  if (userData) {
     sendEmail({
       to: userData.Email,
       from: 'jcbenny.opco.llc@gmail.com',
@@ -166,21 +166,35 @@ const sendPasswordResetEmail = async (req, res) => {
     }).catch((e) => {
       console.log(e);
       res.sendStatus(500);
+      return;
     });
-  else res.sendStatus(400);
+    res.sendStatus(200);
+  } else res.sendStatus(400);
 };
 
 const getPassword = async (req, res) => {
   const resToGetUserData = await getUserData(req.params);
   const userData = resToGetUserData.Item;
 
-  return res.send(userData.Password);
+  const passwordRight = await bcrypt.compare(
+    req.params.CurrentPassword,
+    userData
+      ? userData.Password
+      : req.params.Email
+      ? cache[req.params.Email].Password
+      : ''
+  );
+
+  if (!passwordRight) return res.sendStatus(401);
+
+  return res.sendStatus(200);
 };
 
 const resetPassword = async (req, res) => {
   req.body.AttributeName = 'Password';
-  req.body.Password = req.body['New password'];
+  req.body.Password = await bcrypt.hash(req.body['New password'], 10);
   changeUserData(req.body);
+  return res.sendStatus(200);
 };
 
 export {
