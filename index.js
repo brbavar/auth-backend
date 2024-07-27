@@ -4,12 +4,10 @@ import express from 'express';
 import cors from 'cors';
 
 import { check } from 'express-validator';
-import {
-  validateRegistration,
-  confirmMatch,
-} from './validation/registration.js';
-import { validateNewPassword } from './validation/passwordReset.js';
-import { getValidationErr } from './validation/general.js';
+import { validateRegistration } from './validation/validateRegistration.js';
+import { validateNewPassword } from './validation/validateNewPassword.js';
+import { confirmMatch } from './validation/confirmMatch.js';
+import { getValidationErr } from './validation/getValidationErr.js';
 
 import {
   createAcct,
@@ -51,7 +49,12 @@ const writeHandlers = [
     createAcct,
   ],
   [verifyEmail],
-  [validateNewPassword, getValidationErr, resetPassword],
+  [
+    validateNewPassword,
+    check('New password').custom(confirmMatch),
+    getValidationErr,
+    resetPassword,
+  ],
 ];
 
 const corsFriendlyWrite = (path, writeType, handlers, application = app) => {
