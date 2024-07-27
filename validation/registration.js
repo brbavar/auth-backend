@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 
 const validateRegistration = [
   body('Email').isEmail().withMessage('This is not a valid email address'),
@@ -28,12 +28,4 @@ const confirmMatch = (val, { req }) => {
   else return val;
 };
 
-const getRegistrationErr = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty())
-    return res.status(400).json({ errors: errors.array() });
-
-  next();
-};
-
-export { validateRegistration, confirmMatch, getRegistrationErr };
+export { validateRegistration, confirmMatch };

@@ -7,8 +7,9 @@ import { check } from 'express-validator';
 import {
   validateRegistration,
   confirmMatch,
-  getRegistrationErr,
 } from './validation/registration.js';
+import { validateNewPassword } from './validation/passwordReset.js';
+import { getValidationErr } from './validation/general.js';
 
 import {
   createAcct,
@@ -46,11 +47,11 @@ const writeHandlers = [
   [
     validateRegistration,
     check('Password').custom(confirmMatch),
-    getRegistrationErr,
+    getValidationErr,
     createAcct,
   ],
   [verifyEmail],
-  [resetPassword],
+  [validateNewPassword, getValidationErr, resetPassword],
 ];
 
 const corsFriendlyWrite = (path, writeType, handlers, application = app) => {
