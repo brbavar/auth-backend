@@ -11,14 +11,14 @@ const validateRegistration = [
     .notEmpty()
     .optional()
     .withMessage(
-      'First name should not be left empty, unless user intends to opt out of providing a first name'
+      'First name should not be left empty, unless you want to opt out of providing a first name'
     ),
   body('Last name')
     .trim()
     .notEmpty()
     .optional()
     .withMessage(
-      'Last name should not be left empty, unless user intends to opt out of providing a last name'
+      'Last name should not be left empty, unless you want to opt out of providing a last name'
     ),
 ];
 
