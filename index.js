@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 
-import express, { Router } from 'express';
-import serverless from 'serverless-http';
+import express from 'express';
 import cors from 'cors';
 
 import { check } from 'express-validator';
@@ -23,7 +22,6 @@ import {
 dotenv.config();
 
 const app = express();
-const router = Router();
 
 app.use(express.json());
 
@@ -36,11 +34,8 @@ const readPaths = [
 
 const readHandlers = [askToScan, logIn, sendPasswordResetEmail, getPassword];
 
-// for (let i = 0; i < readPaths.length; i++)
-//   app.get(readPaths[i], cors(), readHandlers[i]);
-
 for (let i = 0; i < readPaths.length; i++)
-  router.get(readPaths[i], cors(), readHandlers[i]);
+  app.get(readPaths[i], cors(), readHandlers[i]);
 
 const writePaths = ['/register', '/verify-email', '/reset-password'];
 
@@ -62,16 +57,10 @@ const writeHandlers = [
   ],
 ];
 
-// const corsFriendlyWrite = (path, writeType, handlers, application = app) => {
-//   application.options(path, cors());
-//   if (writeType === 'post') application.post(path, cors(), ...handlers);
-//   else application.put(path, cors(), ...handlers);
-// };
-
-const corsFriendlyWrite = (path, writeType, handlers, rtr = router) => {
-  rtr.options(path, cors());
-  if (writeType === 'post') rtr.post(path, cors(), ...handlers);
-  else rtr.put(path, cors(), ...handlers);
+const corsFriendlyWrite = (path, writeType, handlers, application = app) => {
+  application.options(path, cors());
+  if (writeType === 'post') application.post(path, cors(), ...handlers);
+  else application.put(path, cors(), ...handlers);
 };
 
 for (let i = 0; i < writePaths.length; i++)
@@ -81,11 +70,7 @@ for (let i = 0; i < writePaths.length; i++)
     writeHandlers[i]
   );
 
-app.use('/', router);
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-
-export const handler = serverless(app);
