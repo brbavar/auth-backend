@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --experimental-json-modules --exec babel-node index.js",
-    "debug": "DEBUG=express:* nodemon --experimental-json-modules --exec babel-node index.js"
+    "debug": "DEBUG=express:* nodemon --experimental-json-modules --exec babel-node index.js",
+    "build": "node build --output public"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.614.0",
