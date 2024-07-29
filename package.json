@@ -3,11 +3,11 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "main": "/api/index.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node /api/index.js",
-    "dev": "nodemon --experimental-json-modules --exec babel-node /api/index.js",
-    "debug": "DEBUG=express:* nodemon --experimental-json-modules --exec babel-node /api/index.js",
+    "start": "node api/index.js",
+    "dev": "nodemon --experimental-json-modules --exec babel-node api/index.js",
+    "debug": "DEBUG=express:* nodemon --experimental-json-modules --exec babel-node api/index.js",
     "build": "node build --output public"
   },
   "dependencies": {
