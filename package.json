@@ -3,9 +3,9 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "main": "index.js",
+  "main": "/api/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node /api/index.js",
     "dev": "nodemon --experimental-json-modules --exec babel-node index.js",
     "debug": "DEBUG=express:* nodemon --experimental-json-modules --exec babel-node index.js",
     "build": "node build --output public"
