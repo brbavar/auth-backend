@@ -30,7 +30,7 @@ const createAcct = async (req, res) => {
 
     sendEmail({
       to: req.body.Email,
-      from: 'jcbenny.opco.llc@gmail.com',
+      from: 'segundah.usah@gmail.com',
       subject: "Let's verify your email",
       text: `Welcome aboard! To verify your email, click here: ${req.get(
         'origin'
@@ -158,7 +158,7 @@ const sendPasswordResetEmail = async (req, res) => {
   if (userData) {
     sendEmail({
       to: userData.Email,
-      from: 'jcbenny.opco.llc@gmail.com',
+      from: { email: 'segundah.usah@gmail.com', name: 'Authogonal' },
       subject: 'Choose a new password',
       text: `To reset your password, click here: ${req.get(
         'origin'
