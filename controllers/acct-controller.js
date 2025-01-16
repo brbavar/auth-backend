@@ -17,7 +17,6 @@ dotenv.config();
 
 const createAcct = async (req, res) => {
   const resToGetUserData = await getUserData(req.body);
-  // let resToStoreUserData;
   let userData = resToGetUserData.Item;
   if (userData) {
     res.sendStatus(400);
@@ -25,7 +24,6 @@ const createAcct = async (req, res) => {
     const verificationString = uuid();
     req.body.VerificationString = verificationString;
 
-    // resToStoreUserData = await storeUserData(req.body);
     storeUserData(req.body);
 
     sendEmail({
@@ -120,11 +118,7 @@ const logIn = async (req, res) => {
   const resToGetUserData = await getUserData(req.params);
   const userData = resToGetUserData.Item;
 
-  //   if (userData) res.send(userData['First name'].S);
   if (!userData && resToGetUserData.status !== 304) return res.sendStatus(401);
-
-  //   if (resToGetUserData.status == 304)
-  //     res.send(JSON.stringify(cache[req.params.Email]));
 
   const passwordRight = await bcrypt.compare(
     req.params.Password,
