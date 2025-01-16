@@ -99,7 +99,6 @@ const verifyEmail = async (req, res) => {
   req.body.Email = email;
 
   req.body.AttributeName = 'IsVerified';
-  // req.body.AttributeType = 'BOOL';
   req.body.IsVerified = true;
 
   changeUserData(req.body);
