@@ -42,14 +42,14 @@ const writeTypes = [0, 1, 1];
 
 const writeHandlers = [
   [
-    validate,
+    validate(1),
     check('Password').custom(confirmMatch),
     getValidationErr,
     createAcct,
   ],
   [verifyEmail],
   [
-    validate,
+    validate(0),
     check('New password').custom(confirmMatch),
     getValidationErr,
     resetPassword,
