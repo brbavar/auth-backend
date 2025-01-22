@@ -4,8 +4,7 @@ import express from 'express';
 import cors from 'cors';
 
 import { check } from 'express-validator';
-import { validateRegistration } from './validation/validateRegistration.js';
-import { validateNewPassword } from './validation/validateNewPassword.js';
+import { validate } from './validation/validate.js';
 import { confirmMatch } from './validation/confirmMatch.js';
 import { getValidationErr } from './validation/getValidationErr.js';
 
@@ -43,14 +42,14 @@ const writeTypes = [0, 1, 1];
 
 const writeHandlers = [
   [
-    validateRegistration,
+    validate,
     check('Password').custom(confirmMatch),
     getValidationErr,
     createAcct,
   ],
   [verifyEmail],
   [
-    validateNewPassword,
+    validate,
     check('New password').custom(confirmMatch),
     getValidationErr,
     resetPassword,
