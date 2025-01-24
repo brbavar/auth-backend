@@ -13,6 +13,8 @@ import {
   scan,
 } from '../models/acct-model.js';
 
+import { body, check, validationResult } from 'express-validator';
+
 dotenv.config();
 
 const createAcct = async (req, res) => {
@@ -56,11 +58,8 @@ const createAcct = async (req, res) => {
 const askToScan = async (req, res) => {
   let expressionAttributeNames;
 
-  switch (req.originalUrl) {
-    case '/names-of-users':
-      expressionAttributeNames = { '#FN': 'First name', '#LN': 'Last name' };
-      break;
-  }
+  if (req.originalUrl == '/names-of-users')
+    expressionAttributeNames = { '#FN': 'First name', '#LN': 'Last name' };
 
   const exprs = Object.keys(expressionAttributeNames);
 
@@ -76,8 +75,6 @@ const askToScan = async (req, res) => {
 };
 
 const verifyEmail = async (req, res) => {
-  const { VerificationString } = req.body;
-
   const projectionExpression = 'Email';
   const expressionAttributeValues = { ':v': req.body.VerificationString };
   const filterExpression = 'VerificationString = :v';
@@ -190,6 +187,49 @@ const resetPassword = async (req, res) => {
   return res.sendStatus(200);
 };
 
+const registrationValidationChains = [
+  body('Email').isEmail().withMessage('This is not a valid email address'),
+  body('First name')
+    .trim()
+    .notEmpty()
+    .withMessage('First name must not be left empty'),
+  body('Last name')
+    .trim()
+    .notEmpty()
+    .withMessage('Last name must not be left empty'),
+];
+
+const passwordValidationChain = (isNewAcct) =>
+  body(`${isNewAcct ? 'P' : 'New p'}assword`)
+    .trim()
+    .isLength({ min: 6 })
+    .withMessage('Password needs to be 6 or more characters long');
+
+const validate = (isNewAcct) => {
+  const validationChains = [passwordValidationChain(isNewAcct)];
+
+  if (isNewAcct) validationChains.push(...registrationValidationChains);
+
+  return validationChains;
+};
+
+const confirmMatch = (val, { req }) => {
+  if (val !== req.body['Confirm password'])
+    throw new Error('Passwords do not match');
+  else return val;
+};
+
+const checkToConfirmMatch = (thingToBeMatched) =>
+  check(thingToBeMatched).custom(confirmMatch);
+
+const getValidationErr = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty())
+    return res.status(400).json({ errors: errors.array() });
+
+  next();
+};
+
 export {
   createAcct,
   askToScan,
@@ -198,4 +238,7 @@ export {
   sendPasswordResetEmail,
   getPassword,
   resetPassword,
+  validate,
+  checkToConfirmMatch,
+  getValidationErr,
 };

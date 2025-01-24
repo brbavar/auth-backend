@@ -3,11 +3,6 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 
-import { check } from 'express-validator';
-import { validate } from './validation/validate.js';
-import { confirmMatch } from './validation/confirmMatch.js';
-import { getValidationErr } from './validation/getValidationErr.js';
-
 import {
   createAcct,
   askToScan,
@@ -16,6 +11,9 @@ import {
   sendPasswordResetEmail,
   getPassword,
   resetPassword,
+  validate,
+  checkToConfirmMatch,
+  getValidationErr,
 } from './controllers/acct-controller.js';
 
 dotenv.config();
@@ -41,16 +39,11 @@ const writePaths = ['/register', '/verify-email', '/reset-password'];
 const writeTypes = [0, 1, 1];
 
 const writeHandlers = [
-  [
-    validate(1),
-    check('Password').custom(confirmMatch),
-    getValidationErr,
-    createAcct,
-  ],
+  [validate(1), checkToConfirmMatch('Password'), getValidationErr, createAcct],
   [verifyEmail],
   [
     validate(0),
-    check('New password').custom(confirmMatch),
+    checkToConfirmMatch('New password'),
     getValidationErr,
     resetPassword,
   ],
