@@ -128,9 +128,7 @@ const logIn = async (req, res) => {
   // const resToGetUserData = await getUserData(req.params);
   // const userData = resToGetUserData.Item;
   const userData = await getUserData(req.params);
-  console.log(
-    `login accessed these user data:\n\nrows[0] keys: ${Object.keys(userData.rows[0])}\nrows[0] vals: ${Object.values(userData.rows[0])}\nrows: ${userData.rows}`,
-  );
+  console.log(`login accessed these user data:\n\nrows: ${userData.rows}`);
 
   if (!userData /* && resToGetUserData.status !== 304 */)
     return res.sendStatus(401);
