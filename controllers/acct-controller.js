@@ -95,7 +95,7 @@ const verifyEmail = async (req, res) => {
 
   // const email = resToScan.Items[0].Email;
   // req.body.Email = email;
-  req.body.Condition = `verification_string = ${req.body.VerificationString}`;
+  req.body.Condition = `verification_string = '${req.body.VerificationString}'`;
 
   // const resToGetUserData = await getUserData(req.body);
   // if (!resToGetUserData)
@@ -128,7 +128,7 @@ const logIn = async (req, res) => {
   // const resToGetUserData = await getUserData(req.params);
   // const userData = resToGetUserData.Item;
   const userData = await getUserData(req.params);
-  console.log(`login accessed these user data:\n\n${userData}`);
+  console.log(`login accessed these user data:\n\nrows[0] keys: ${Object.keys(userData.rows[0])}\nrows[0] vals: ${Object.values(userData.rows[0])}\nlast_name: ${userData.rows.last_name}\npassword: ${userData.rows.password}\nrows: ${userData.rows}\nfields: ${userData.fields}\nRowCtor: ${userData.RowCtor}\nrowAsArray: ${userData.rowAsArray}`);
 
   // if (!userData /* && resToGetUserData.status !== 304 */)
   //   return res.sendStatus(401);

@@ -23,7 +23,8 @@ dotenv.config();
 // });
 // const dynamoDocClient = DynamoDBDocumentClient.from(dynamoClient);
 const client = new Client({
-  host: '132.145.96.91', // Oracle Cloud VM's public IP
+  //host: '132.145.96.91', // Oracle Cloud VM's public IP
+  host: '127.0.0.1', // loopback IP, or localhost
   port: 5432, // default PostgreSQL port
   user: 'ubuntu',
   password: '7yqZYlLIaf',
@@ -77,13 +78,25 @@ const getUserData = async (reqPayload) => {
     // reqPayload.Condition === undefined ? '1 = 1' : reqPayload.Condition;
     reqPayload.Condition || '1 = 1';
 
-  await client.connect();
+  console.log(`keys of client.connection before connect(): ${Object.keys(client.connection)}`);
+
+  //if (!Object.keys(client.connection).includes('_connecting')) {
+  try {
+    await client.connect();
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+  //}
 
   const res = await client.query(
-    `SELECT * FROM users WHERE email = ${reqPayload.email} AND ${condition};`,
+    `SELECT * FROM users WHERE email = '${reqPayload.email}' AND ${condition};`,
   );
 
   await client.end();
+
+  console.log(`keys of client.connection after end(): ${Object.keys(client.connection)}`);
+  console.log(`value of client.connection._connecting after end(): ${client.connection._connecting}`);
 
   return res;
 };
