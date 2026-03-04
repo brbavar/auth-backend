@@ -186,11 +186,11 @@ const getPassword = async (req, res) => {
   const userData = await getUserData(req.params);
 
   const passwordRight = await bcrypt.compare(
-    req.params.CurrentPassword,
+    req.params.currentPassword,
     userData
       ? userData.Password
-      : req.params.Email
-        ? cache[req.params.Email].Password
+      : req.params.email
+        ? cache[req.params.email].Password
         : '',
   );
 

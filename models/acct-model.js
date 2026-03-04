@@ -80,7 +80,7 @@ const getUserData = async (reqPayload) => {
   await client.connect();
 
   const res = await client.query(
-    `SELECT * FROM users WHERE email = ${reqPayload.Email} AND ${condition};`,
+    `SELECT * FROM users WHERE email = ${reqPayload.email} AND ${condition};`,
   );
 
   await client.end();
