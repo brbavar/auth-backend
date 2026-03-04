@@ -135,11 +135,12 @@ const logIn = async (req, res) => {
 
   const passwordRight = await bcrypt.compare(
     req.params.password,
-    userData.rows[0] === undefined
-      ? req.params.email === undefined
-        ? ''
-        : cache[req.params.email].Password
-      : userData.rows[0].password,
+    // userData.rows[0] === undefined
+    //   ? req.params.email === undefined
+    //     ? ''
+    //     : cache[req.params.email].Password
+    //   : userData.rows[0].password,
+    userData.rows[0].password,
   );
 
   console.log(
