@@ -33,7 +33,7 @@ const createAcct = async (req, res) => {
       from: 'segundah.usah@gmail.com',
       subject: "Let's verify your email",
       text: `Welcome aboard! To verify your email, click here: ${req.get(
-        'origin'
+        'origin',
       )}/verify-email/${verificationString}`,
     }).catch((e) => {
       console.log(e);
@@ -50,7 +50,7 @@ const createAcct = async (req, res) => {
       (err, token) => {
         if (err) return res.status(500).send(err);
         res.status(200).json({ token });
-      }
+      },
     );
   }
 };
@@ -85,7 +85,7 @@ const verifyEmail = async (req, res) => {
     null,
     expressionAttributeValues,
     filterExpression,
-    key
+    key,
   );
   if (!resToScan.Count)
     return res
@@ -95,7 +95,8 @@ const verifyEmail = async (req, res) => {
   const email = resToScan.Items[0].Email;
   req.body.Email = email;
 
-  req.body.AttributeName = 'IsVerified';
+  // req.body.AttributeName = 'IsVerified';
+  req.body.ColumnName = 'is_verified';
   req.body.IsVerified = true;
 
   changeUserData(req.body);
@@ -106,7 +107,7 @@ const verifyEmail = async (req, res) => {
     (err, token) => {
       if (err) return res.sendStatus(500);
       res.status(200).json({ token });
-    }
+    },
   );
 };
 
@@ -118,7 +119,7 @@ const logIn = async (req, res) => {
 
   const passwordRight = await bcrypt.compare(
     req.params.Password,
-    userData ? userData.Password : cache[req.params.Email].Password
+    userData ? userData.Password : cache[req.params.Email].Password,
   );
 
   if (!passwordRight) return res.sendStatus(401);
@@ -137,7 +138,7 @@ const logIn = async (req, res) => {
         FirstName: userData['First name'],
         LastName: userData['Last name'],
       });
-    }
+    },
   );
 };
 
@@ -151,7 +152,7 @@ const sendPasswordResetEmail = async (req, res) => {
       from: { email: 'segundah.usah@gmail.com', name: 'Authogonal' },
       subject: 'Choose a new password',
       text: `To reset your password, click here: ${req.get(
-        'origin'
+        'origin',
       )}/password-reset/${userData.VerificationString}`,
     }).catch((e) => {
       console.log(e);
@@ -171,8 +172,8 @@ const getPassword = async (req, res) => {
     userData
       ? userData.Password
       : req.params.Email
-      ? cache[req.params.Email].Password
-      : ''
+        ? cache[req.params.Email].Password
+        : '',
   );
 
   if (!passwordRight) return res.sendStatus(401);
@@ -181,7 +182,8 @@ const getPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  req.body.AttributeName = 'Password';
+  // req.body.AttributeName = 'Password';
+  req.body.ColumnName = 'password';
   req.body.Password = await bcrypt.hash(req.body['New password'], 10);
   changeUserData(req.body);
   return res.sendStatus(200);
