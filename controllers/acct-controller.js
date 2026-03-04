@@ -128,34 +128,36 @@ const logIn = async (req, res) => {
   // const resToGetUserData = await getUserData(req.params);
   // const userData = resToGetUserData.Item;
   const userData = await getUserData(req.params);
-  console.log(`login accessed these user data:\n\nrows[0] keys: ${Object.keys(userData.rows[0])}\nrows[0] vals: ${Object.values(userData.rows[0])}\nlast_name: ${userData.rows.last_name}\npassword: ${userData.rows.password}\nrows: ${userData.rows}\nfields: ${userData.fields}\nRowCtor: ${userData.RowCtor}\nrowAsArray: ${userData.rowAsArray}`);
+  console.log(
+    `login accessed these user data:\n\nrows[0] keys: ${Object.keys(userData.rows[0])}\nrows[0] vals: ${Object.values(userData.rows[0])}\nrows: ${userData.rows}`,
+  );
 
-  // if (!userData /* && resToGetUserData.status !== 304 */)
-  //   return res.sendStatus(401);
+  if (!userData /* && resToGetUserData.status !== 304 */)
+    return res.sendStatus(401);
 
-  // const passwordRight = await bcrypt.compare(
-  //   req.params.Password,
-  //   userData ? userData.Password : cache[req.params.Email].Password,
-  // );
+  const passwordRight = await bcrypt.compare(
+    req.params.Password,
+    userData ? userData.rows[0].password : cache[req.params.Email].Password,
+  );
 
-  // if (!passwordRight) return res.sendStatus(401);
+  if (!passwordRight) return res.sendStatus(401);
 
-  // jwt.sign(
-  //   {
-  //     Email: req.params.Email,
-  //     IsVerified: false,
-  //   },
-  //   process.env.JWT_SECRET,
-  //   { expiresIn: '2d' },
-  //   (err, token) => {
-  //     if (err) return res.status(500).json(err);
-  //     res.status(200).json({
-  //       Token: token,
-  //       FirstName: userData['First name'],
-  //       LastName: userData['Last name'],
-  //     });
-  //   },
-  // );
+  jwt.sign(
+    {
+      Email: req.params.Email,
+      IsVerified: false,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '2d' },
+    (err, token) => {
+      if (err) return res.status(500).json(err);
+      res.status(200).json({
+        Token: token,
+        FirstName: userData.rows[0].first_name,
+        LastName: userData.rows[0].last_name,
+      });
+    },
+  );
 };
 
 const sendPasswordResetEmail = async (req, res) => {
