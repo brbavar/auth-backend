@@ -136,7 +136,9 @@ const logIn = async (req, res) => {
   const passwordRight = await bcrypt.compare(
     req.params.password,
     userData.rows[0] === undefined
-      ? cache[req.params.email].Password
+      ? req.params.email === undefined
+        ? ''
+        : cache[req.params.email].Password
       : userData.rows[0].password,
   );
 
