@@ -10,7 +10,6 @@ import {
   storeUserData,
   getUserData,
   changeUserData,
-  // scan,
 } from '../models/acct-model.js';
 
 import { body, check, validationResult } from 'express-validator';
@@ -21,9 +20,7 @@ const createAcct = async (req, res) => {
   // const resToGetUserData = await getUserData(req.body);
   // let userData = resToGetUserData.Item;
   const userData = await getUserData(req.body);
-  if (userData) {
-    res.sendStatus(400);
-  } else {
+  if (userData.rows[0] === undefined) {
     const verificationString = uuid();
     req.body.VerificationString = verificationString;
 
@@ -36,8 +33,8 @@ const createAcct = async (req, res) => {
       text: `Welcome aboard! To verify your email, click here: ${req.get(
         'origin',
       )}/verify-email/${verificationString}`,
-    }).catch((e) => {
-      console.log(e);
+    }).catch((err) => {
+      console.log(err);
       res.sendStatus(500);
     });
 
@@ -53,6 +50,8 @@ const createAcct = async (req, res) => {
         res.status(200).json({ token });
       },
     );
+  } else {
+    res.sendStatus(400);
   }
 };
 

@@ -23,8 +23,8 @@ const app = express();
 app.use(express.json());
 
 const readPaths = [
-  '/accounts/:email/:password',
-  '/accounts/:email',
+  '/users/:email/:password',
+  '/users/:email',
   '/passwords/:email/:currentPassword',
 ];
 
@@ -33,7 +33,7 @@ const readHandlers = [logIn, sendPasswordResetEmail, getPassword];
 for (let i = 0; i < readPaths.length; i++)
   app.get(readPaths[i], cors(), readHandlers[i]);
 
-const writePaths = ['/accounts', '/records-of-verifications', '/passwords'];
+const writePaths = ['/users', '/verification-strings', '/passwords'];
 
 const writeTypes = [0, 1, 1];
 
