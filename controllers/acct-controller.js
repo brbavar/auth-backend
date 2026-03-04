@@ -10,7 +10,7 @@ import {
   storeUserData,
   getUserData,
   changeUserData,
-  scan,
+  // scan,
 } from '../models/acct-model.js';
 
 import { body, check, validationResult } from 'express-validator';
@@ -18,8 +18,9 @@ import { body, check, validationResult } from 'express-validator';
 dotenv.config();
 
 const createAcct = async (req, res) => {
-  const resToGetUserData = await getUserData(req.body);
-  let userData = resToGetUserData.Item;
+  // const resToGetUserData = await getUserData(req.body);
+  // let userData = resToGetUserData.Item;
+  const userData = await getUserData(req.body);
   if (userData) {
     res.sendStatus(400);
   } else {
@@ -55,47 +56,59 @@ const createAcct = async (req, res) => {
   }
 };
 
-const askToScan = async (req, res) => {
-  let expressionAttributeNames;
+// const askToScan = async (req, res) => {
+//   let expressionAttributeNames;
 
-  if (req.originalUrl == '/names-of-users')
-    expressionAttributeNames = { '#FN': 'First name', '#LN': 'Last name' };
+//   if (req.originalUrl == '/names-of-users')
+//     expressionAttributeNames = { '#FN': 'First name', '#LN': 'Last name' };
 
-  const exprs = Object.keys(expressionAttributeNames);
+//   const exprs = Object.keys(expressionAttributeNames);
 
-  let projectionExpression = '';
-  let i;
-  for (i = 0; i < exprs.length - 1; i++)
-    projectionExpression += `${exprs[i]}, `;
-  projectionExpression += exprs[i];
+//   let projectionExpression = '';
+//   let i;
+//   for (i = 0; i < exprs.length - 1; i++)
+//     projectionExpression += `${exprs[i]}, `;
+//   projectionExpression += exprs[i];
 
-  const data = await scan(projectionExpression, expressionAttributeNames);
+//   const data = await scan(projectionExpression, expressionAttributeNames);
 
-  return res.send(data);
-};
+//   return res.send(data);
+// };
 
 const verifyEmail = async (req, res) => {
-  const projectionExpression = 'Email';
-  const expressionAttributeValues = { ':v': req.body.VerificationString };
-  const filterExpression = 'VerificationString = :v';
-  const key = { Email: req.body.Email };
+  // const projectionExpression = 'Email';
+  // const expressionAttributeValues = { ':v': req.body.VerificationString };
+  // const filterExpression = 'VerificationString = :v';
+  // const key = { Email: req.body.Email };
 
-  const resToScan = await scan(
-    projectionExpression,
-    null,
-    expressionAttributeValues,
-    filterExpression,
-    key,
-  );
-  if (!resToScan.Count)
+  // const resToScan = await scan(
+  //   projectionExpression,
+  //   null,
+  //   expressionAttributeValues,
+  //   filterExpression,
+  //   key,
+  // );
+  // if (!resToScan.Count)
+  //   return res
+  //     .status(401)
+  //     .json({ message: 'The email verification code is incorrect.' });
+
+  // const email = resToScan.Items[0].Email;
+  // req.body.Email = email;
+  req.body.Condition = `verification_string = ${req.body.VerificationString}`;
+
+  // const resToGetUserData = await getUserData(req.body);
+  // if (!resToGetUserData)
+  const userData = await getUserData(req.body);
+  if (!userData)
     return res
       .status(401)
       .json({ message: 'The email verification code is incorrect.' });
 
-  const email = resToScan.Items[0].Email;
-  req.body.Email = email;
+  // const email = resToGetUserData.Email;
+  // req.body.Email = email;
 
-  // req.body.AttributeName = 'IsVerified';
+  // // req.body.AttributeName = 'IsVerified';
   req.body.ColumnName = 'is_verified';
   req.body.IsVerified = true;
 
@@ -112,39 +125,43 @@ const verifyEmail = async (req, res) => {
 };
 
 const logIn = async (req, res) => {
-  const resToGetUserData = await getUserData(req.params);
-  const userData = resToGetUserData.Item;
+  // const resToGetUserData = await getUserData(req.params);
+  // const userData = resToGetUserData.Item;
+  const userData = await getUserData(req.params);
+  console.log(`login accessed these user data:\n\n${userData}`);
 
-  if (!userData && resToGetUserData.status !== 304) return res.sendStatus(401);
+  // if (!userData /* && resToGetUserData.status !== 304 */)
+  //   return res.sendStatus(401);
 
-  const passwordRight = await bcrypt.compare(
-    req.params.Password,
-    userData ? userData.Password : cache[req.params.Email].Password,
-  );
+  // const passwordRight = await bcrypt.compare(
+  //   req.params.Password,
+  //   userData ? userData.Password : cache[req.params.Email].Password,
+  // );
 
-  if (!passwordRight) return res.sendStatus(401);
+  // if (!passwordRight) return res.sendStatus(401);
 
-  jwt.sign(
-    {
-      Email: req.params.Email,
-      IsVerified: false,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: '2d' },
-    (err, token) => {
-      if (err) return res.status(500).json(err);
-      res.status(200).json({
-        Token: token,
-        FirstName: userData['First name'],
-        LastName: userData['Last name'],
-      });
-    },
-  );
+  // jwt.sign(
+  //   {
+  //     Email: req.params.Email,
+  //     IsVerified: false,
+  //   },
+  //   process.env.JWT_SECRET,
+  //   { expiresIn: '2d' },
+  //   (err, token) => {
+  //     if (err) return res.status(500).json(err);
+  //     res.status(200).json({
+  //       Token: token,
+  //       FirstName: userData['First name'],
+  //       LastName: userData['Last name'],
+  //     });
+  //   },
+  // );
 };
 
 const sendPasswordResetEmail = async (req, res) => {
-  const resToGetUserData = await getUserData(req.params);
-  const userData = resToGetUserData.Item;
+  // const resToGetUserData = await getUserData(req.params);
+  // const userData = resToGetUserData.Item;
+  const userData = await getUserData(req.params);
 
   if (userData) {
     sendEmail({
@@ -164,8 +181,9 @@ const sendPasswordResetEmail = async (req, res) => {
 };
 
 const getPassword = async (req, res) => {
-  const resToGetUserData = await getUserData(req.params);
-  const userData = resToGetUserData.Item;
+  // const resToGetUserData = await getUserData(req.params);
+  // const userData = resToGetUserData.Item;
+  const userData = await getUserData(req.params);
 
   const passwordRight = await bcrypt.compare(
     req.params.CurrentPassword,
@@ -234,7 +252,7 @@ const getValidationErr = (req, res, next) => {
 
 export {
   createAcct,
-  askToScan,
+  // askToScan,
   verifyEmail,
   logIn,
   sendPasswordResetEmail,

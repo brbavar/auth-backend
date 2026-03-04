@@ -73,11 +73,19 @@ const getUserData = async (reqPayload) => {
 
   return dynamoDocClient.send(new GetCommand(dynamoInput)); */
 
+  const condition =
+    // reqPayload.Condition === undefined ? '1 = 1' : reqPayload.Condition;
+    reqPayload.Condition || '1 = 1';
+
   await client.connect();
 
-  await client.query(`SELECT * FROM users WHERE email = ${reqPayload.Email};`);
+  const res = await client.query(
+    `SELECT * FROM users WHERE email = ${reqPayload.Email} AND ${condition};`,
+  );
 
   await client.end();
+
+  return res;
 };
 
 const changeUserData = async (reqPayload) => {
@@ -130,27 +138,34 @@ const changeUserData = async (reqPayload) => {
   await client.end();
 };
 
-const scan = async (
-  proj = '',
-  attrNames = null,
-  attrVals = null,
-  filt = '',
-  key = null,
-) => {
-  /* if (key) dynamoInput.Key = key;
+// const scan = async (
+//   // proj = '',
+//   // attrNames = null,
+//   // attrVals = null,
+//   // filt = '',
+//   // key = null,
+//   reqPayload,
+// ) => {
+//   /* if (key) dynamoInput.Key = key;
 
-  if (attrNames) dynamoInput.ExpressionAttributeNames = attrNames;
-  if (attrVals) dynamoInput.ExpressionAttributeValues = attrVals;
-  if (filt) dynamoInput.FilterExpression = filt;
-  if (proj) dynamoInput.ProjectionExpression = proj;
+//   if (attrNames) dynamoInput.ExpressionAttributeNames = attrNames;
+//   if (attrVals) dynamoInput.ExpressionAttributeValues = attrVals;
+//   if (filt) dynamoInput.FilterExpression = filt;
+//   if (proj) dynamoInput.ProjectionExpression = proj;
 
-  return dynamoDocClient.send(new ScanCommand(dynamoInput)); */
+//   return dynamoDocClient.send(new ScanCommand(dynamoInput)); */
 
-  await client.connect();
+//   const condition = reqPayload.Condition;
 
-  await client.query(`SELECT * FROM users WHERE ;`);
+//   await client.connect();
 
-  await client.end();
-};
+//   const res = await client.query(
+//     `SELECT * FROM users WHERE email = ${reqPayload.Email} AND ${condition};`,
+//   );
 
-export { cache, storeUserData, getUserData, changeUserData, scan };
+//   await client.end();
+
+//   return res;
+// };
+
+export { cache, storeUserData, getUserData, changeUserData /*, scan */ };

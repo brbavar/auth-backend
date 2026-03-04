@@ -5,7 +5,7 @@ import cors from 'cors';
 
 import {
   createAcct,
-  askToScan,
+  // askToScan,
   verifyEmail,
   logIn,
   sendPasswordResetEmail,
