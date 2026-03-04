@@ -130,12 +130,14 @@ const logIn = async (req, res) => {
   const userData = await getUserData(req.params);
   console.log(`login accessed these user data:\n\nrows: ${userData.rows}`);
 
-  if (!userData /* && resToGetUserData.status !== 304 */)
+  if (!userData.rows /* && resToGetUserData.status !== 304 */)
     return res.sendStatus(401);
 
   const passwordRight = await bcrypt.compare(
     req.params.Password,
-    userData ? userData.rows[0].password : cache[req.params.Email].Password,
+    userData.rows
+      ? userData.rows[0].password
+      : cache[req.params.Email].Password,
   );
 
   if (!passwordRight) return res.sendStatus(401);
