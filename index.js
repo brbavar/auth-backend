@@ -23,18 +23,17 @@ const app = express();
 app.use(express.json());
 
 const readPaths = [
-  '/names-of-users',
-  '/emails/:Email/passwords/:Password',
-  '/check-if-reset-sendable/:Email',
-  '/get-password/:Email/:CurrentPassword',
+  '/accounts/:email/:password',
+  '/accounts/:email',
+  '/passwords/:email/:currentPassword',
 ];
 
-const readHandlers = [askToScan, logIn, sendPasswordResetEmail, getPassword];
+const readHandlers = [logIn, sendPasswordResetEmail, getPassword];
 
 for (let i = 0; i < readPaths.length; i++)
   app.get(readPaths[i], cors(), readHandlers[i]);
 
-const writePaths = ['/register', '/verify-email', '/reset-password'];
+const writePaths = ['/accounts', '/records-of-verifications', '/passwords'];
 
 const writeTypes = [0, 1, 1];
 
@@ -59,7 +58,7 @@ for (let i = 0; i < writePaths.length; i++)
   corsFriendlyWrite(
     writePaths[i],
     writeTypes[i] ? 'put' : 'post',
-    writeHandlers[i]
+    writeHandlers[i],
   );
 
 const port = process.env.PORT || 3000;
