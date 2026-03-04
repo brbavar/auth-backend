@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import { snakeToPascal } from '../util/snakeToPascal';
+import { snakeToPascal } from '../util/snakeToPascal.js';
 import { Client } from 'pg';
 
 // import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
