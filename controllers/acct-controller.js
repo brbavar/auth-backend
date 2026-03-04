@@ -56,45 +56,7 @@ const createAcct = async (req, res) => {
   }
 };
 
-// const askToScan = async (req, res) => {
-//   let expressionAttributeNames;
-
-//   if (req.originalUrl == '/names-of-users')
-//     expressionAttributeNames = { '#FN': 'First name', '#LN': 'Last name' };
-
-//   const exprs = Object.keys(expressionAttributeNames);
-
-//   let projectionExpression = '';
-//   let i;
-//   for (i = 0; i < exprs.length - 1; i++)
-//     projectionExpression += `${exprs[i]}, `;
-//   projectionExpression += exprs[i];
-
-//   const data = await scan(projectionExpression, expressionAttributeNames);
-
-//   return res.send(data);
-// };
-
 const verifyEmail = async (req, res) => {
-  // const projectionExpression = 'Email';
-  // const expressionAttributeValues = { ':v': req.body.VerificationString };
-  // const filterExpression = 'VerificationString = :v';
-  // const key = { Email: req.body.Email };
-
-  // const resToScan = await scan(
-  //   projectionExpression,
-  //   null,
-  //   expressionAttributeValues,
-  //   filterExpression,
-  //   key,
-  // );
-  // if (!resToScan.Count)
-  //   return res
-  //     .status(401)
-  //     .json({ message: 'The email verification code is incorrect.' });
-
-  // const email = resToScan.Items[0].Email;
-  // req.body.Email = email;
   req.body.Condition = `verification_string = '${req.body.VerificationString}'`;
 
   // const resToGetUserData = await getUserData(req.body);
@@ -130,21 +92,21 @@ const logIn = async (req, res) => {
   const userData = await getUserData(req.params);
   console.log(`login accessed these user data:\n\nrows: ${userData.rows}`);
 
-  if (userData.rows[0] === undefined /* && resToGetUserData.status !== 304 */)
+  if (userData.rows[0] === undefined /* && resToGetUserData.status !== 304 */) {
     return res.sendStatus(401);
+  }
 
   const passwordRight = await bcrypt.compare(
     req.params.password,
-    // userData.rows[0] === undefined
-    //   ? req.params.email === undefined
-    //     ? ''
-    //     : cache[req.params.email].Password
-    //   : userData.rows[0].password,
-    userData.rows[0].password,
+    userData.rows[0] === undefined
+      ? req.params.email === undefined
+        ? ''
+        : cache[req.params.email].Password
+      : userData.rows[0].password,
   );
 
   console.log(
-    `passwordRight: ${passwordRight}\nuserData.rows[0]: ${userData.rows[0]}\nreq.params.password: ${req.params.password}\ncache[req.params.email].Password: ${cache[req.params.email] === undefined ? undefined : cache[req.params.email].Password}\nuserData.rows[0].password: ${userData.rows[0].password}</password>`,
+    `passwordRight: ${passwordRight}\nuserData.rows[0]: ${userData.rows[0]}\nreq.params.password: ${req.params.password}\ncache[req.params.email].Password: ${cache[req.params.email] === undefined ? undefined : cache[req.params.email].Password}\nuserData.rows[0].password: ${userData.rows[0].password}`,
   );
 
   if (!passwordRight) return res.sendStatus(401);
@@ -261,7 +223,6 @@ const getValidationErr = (req, res, next) => {
 
 export {
   createAcct,
-  // askToScan,
   verifyEmail,
   logIn,
   sendPasswordResetEmail,
