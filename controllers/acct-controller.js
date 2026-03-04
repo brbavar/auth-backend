@@ -140,6 +140,10 @@ const logIn = async (req, res) => {
       : userData.rows[0].password,
   );
 
+  console.log(
+    `userData.rows[0]: ${userData.rows[0]}\nreq.params.password: ${req.params.password}\ncache[req.params.email].Password: ${cache[req.params.email].Password}\nuserData.rows[0].password: ${userData.rows[0].password}`,
+  );
+
   if (!passwordRight) return res.sendStatus(401);
 
   jwt.sign(
