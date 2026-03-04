@@ -134,7 +134,7 @@ const logIn = async (req, res) => {
     return res.sendStatus(401);
 
   const passwordRight = await bcrypt.compare(
-    req.params.Password,
+    req.params.password,
     userData.rows[0] === undefined
       ? cache[req.params.Email].Password
       : userData.rows[0].password,
@@ -144,7 +144,7 @@ const logIn = async (req, res) => {
 
   jwt.sign(
     {
-      Email: req.params.Email,
+      Email: req.params.email,
       IsVerified: false,
     },
     process.env.JWT_SECRET,
