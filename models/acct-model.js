@@ -18,6 +18,7 @@ const pool = new Pool({
   user: 'ubuntu',
   password: '7yqZYlLIaf',
   database: 'authdb',
+  ssl: { rejectUnauthorized: true },
 });
 
 const cache = {};
