@@ -21,8 +21,6 @@ const createAcct = async (req, res) => {
   // let userData = resToGetUserData.Item;
   const userData = await getUserData(req.body);
   if (userData.rows[0] === undefined) {
-    console.log(`no user data found`);
-
     const verificationString = uuid();
     req.body.VerificationString = verificationString;
 
