@@ -28,9 +28,6 @@ const createAcct = async (req, res) => {
 
     storeUserData(req.body);
 
-    console.log(`req.body.Email = ${req.body.Email}`);
-    console.log(`req.body.VerificationString = ${req.body.VerificationString}`);
-
     sendEmail({
       to: req.body.Email,
       from: 'segundah.usah@gmail.com',
