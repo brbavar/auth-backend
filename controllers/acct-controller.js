@@ -146,8 +146,8 @@ const sendPasswordResetEmail = async (req, res) => {
       return res.sendStatus(500);
       // return;
     });
-    res.sendStatus(200);
-  } else res.sendStatus(400);
+    return res.sendStatus(200);
+  } else return res.sendStatus(400);
 };
 
 const getPassword = async (req, res) => {
