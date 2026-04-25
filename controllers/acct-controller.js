@@ -35,7 +35,7 @@ const createAcct = async (req, res) => {
       )}/verify-email/${verificationString}`,
     }).catch((err) => {
       console.log(err);
-      res.sendStatus(500);
+      return res.sendStatus(500);
     });
 
     jwt.sign(
@@ -51,7 +51,7 @@ const createAcct = async (req, res) => {
       },
     );
   } else {
-    res.sendStatus(400);
+    return res.sendStatus(400);
   }
 };
 
@@ -143,8 +143,8 @@ const sendPasswordResetEmail = async (req, res) => {
       )}/password-reset/${userData.VerificationString}`,
     }).catch((e) => {
       console.log(e);
-      res.sendStatus(500);
-      return;
+      return res.sendStatus(500);
+      // return;
     });
     res.sendStatus(200);
   } else res.sendStatus(400);
