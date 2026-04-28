@@ -28,11 +28,11 @@ const createAcct = async (req, res) => {
 
     await sendEmail({
       to: req.body.Email,
-      from: 'authogonal@zohomail.com',
+      from: 'Authogonal <authogonal@zohomail.com>',
       subject: "Let's verify your email",
-      html: `<p>Welcome aboard! To verify your email, click here: ${req.get(
+      text: `Welcome aboard! To verify your email, click here: ${req.get(
         'origin',
-      )}/verify-email/${verificationString}</p>`,
+      )}/verify-email/${verificationString}`,
     }).then(({ data, error }) => {
       if (error) {
         console.log(error);
@@ -143,11 +143,11 @@ const sendPasswordResetEmail = async (req, res) => {
   if (userData) {
     await sendEmail({
       to: userData.Email,
-      from: { email: 'authogonal@zohomail.com', name: 'Authogonal' },
+      from: 'Authogonal <authogonal@zohomail.com>',
       subject: 'Choose a new password',
-      html: `<p>To reset your password, click here: ${req.get(
+      text: `To reset your password, click here: ${req.get(
         'origin',
-      )}/password-reset/${userData.VerificationString}</p>`,
+      )}/password-reset/${userData.VerificationString}`,
     })
     .then(({ data, error }) => {
       if (error) {
