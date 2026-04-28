@@ -26,15 +26,22 @@ const createAcct = async (req, res) => {
 
     storeUserData(req.body);
 
-    sendEmail({
+    await sendEmail({
       to: req.body.Email,
-      from: 'segundah.usah@gmail.com',
+      from: 'authogonal@zohomail.com',
       subject: "Let's verify your email",
-      text: `Welcome aboard! To verify your email, click here: ${req.get(
+      html: `<p>Welcome aboard! To verify your email, click here: ${req.get(
         'origin',
-      )}/verify-email/${verificationString}`,
-    }).catch((err) => {
-      console.log(err);
+      )}/verify-email/${verificationString}</p>`,
+    }).then(({ data, error }) => {
+      if (error) {
+        console.log(error);
+        return res.sendStatus(500);
+      } else {
+        console.log(data);
+      }
+    }).catch(e => {
+      console.log(e);
       return res.sendStatus(500);
     });
 
@@ -134,14 +141,23 @@ const sendPasswordResetEmail = async (req, res) => {
   const userData = await getUserData(req.params);
 
   if (userData) {
-    sendEmail({
+    await sendEmail({
       to: userData.Email,
-      from: { email: 'segundah.usah@gmail.com', name: 'Authogonal' },
+      from: { email: 'authogonal@zohomail.com', name: 'Authogonal' },
       subject: 'Choose a new password',
-      text: `To reset your password, click here: ${req.get(
+      html: `<p>To reset your password, click here: ${req.get(
         'origin',
-      )}/password-reset/${userData.VerificationString}`,
-    }).catch((e) => {
+      )}/password-reset/${userData.VerificationString}</p>`,
+    })
+    .then(({ data, error }) => {
+      if (error) {
+        console.log(error);
+        return res.sendStatus(500);
+      } else {
+        console.log(data);
+      }
+    })
+    .catch((e) => {
       console.log(e);
       return res.sendStatus(500);
       // return;
