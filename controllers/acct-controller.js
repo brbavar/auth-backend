@@ -28,22 +28,24 @@ const createAcct = async (req, res) => {
 
     await sendEmail({
       to: req.body.Email,
-      from: 'Authogonal <authogonal@zohomail.com>',
+      from: `"Authogonal" ${process.env.EMAIL_USER}`,
       subject: "Let's verify your email",
       text: `Welcome aboard! To verify your email, click here: ${req.get(
         'origin',
       )}/verify-email/${verificationString}`,
-    }).then(({ data, error }) => {
-      if (error) {
-        console.log(error);
+    })
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error);
+          return res.sendStatus(500);
+        } else {
+          console.log(data);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
         return res.sendStatus(500);
-      } else {
-        console.log(data);
-      }
-    }).catch(e => {
-      console.log(e);
-      return res.sendStatus(500);
-    });
+      });
 
     jwt.sign(
       {
@@ -143,25 +145,25 @@ const sendPasswordResetEmail = async (req, res) => {
   if (userData) {
     await sendEmail({
       to: userData.Email,
-      from: 'Authogonal <authogonal@zohomail.com>',
+      from: `"Authogonal" <${process.env.EMAIL_USER}>`,
       subject: 'Choose a new password',
       text: `To reset your password, click here: ${req.get(
         'origin',
       )}/password-reset/${userData.VerificationString}`,
     })
-    .then(({ data, error }) => {
-      if (error) {
-        console.log(error);
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error);
+          return res.sendStatus(500);
+        } else {
+          console.log(data);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
         return res.sendStatus(500);
-      } else {
-        console.log(data);
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-      return res.sendStatus(500);
-      // return;
-    });
+        // return;
+      });
     return res.sendStatus(200);
   } else return res.sendStatus(400);
 };
