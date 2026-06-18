@@ -21,7 +21,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
 const readPaths = [
   '/users/:email/:password',
@@ -31,8 +31,11 @@ const readPaths = [
 
 const readHandlers = [logIn, sendPasswordResetEmail, getPassword];
 
-for (let i = 0; i < readPaths.length; i++)
+for (let i = 0; i < readPaths.length; i++) {
   app.get(readPaths[i], cors(), readHandlers[i]);
+  // const path = `/api${readPaths[i]}`;
+  // app.get(path, cors(), readHandlers[i]);
+}
 
 const writePaths = ['/users', '/verification-strings', '/passwords'];
 
@@ -50,6 +53,7 @@ const writeHandlers = [
 ];
 
 const corsFriendlyWrite = (path, writeType, handlers, application = app) => {
+  // path = `\api${path}`;
   application.options(path, cors());
   if (writeType === 'post') application.post(path, cors(), ...handlers);
   else application.put(path, cors(), ...handlers);
