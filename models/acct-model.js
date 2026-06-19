@@ -69,9 +69,9 @@ const getUserData = async (reqPayload) => {
   // const res = await client.query(
   //   `SELECT * FROM users WHERE email = '${reqPayload.email}' AND ${condition};`,
   // );
-  console.log(`reqPayload.email = ${reqPayload.email}`);
+  console.log(`reqPayload.email = ${reqPayload.Email}`);
   const res = await pool.query(
-    `SELECT * FROM users WHERE ${reqPayload.email === undefined ? '' : `email = ${reqPayload.email} AND `}${condition};`,
+    `SELECT * FROM users WHERE ${reqPayload.Email === undefined ? '' : `email = ${reqPayload.email} AND `}${condition};`,
   );
 
   // await client.end();
