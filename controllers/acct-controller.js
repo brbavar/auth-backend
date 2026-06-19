@@ -20,6 +20,8 @@ const createAcct = async (req, res) => {
   // const resToGetUserData = await getUserData(req.body);
   // let userData = resToGetUserData.Item;
   const userData = await getUserData(req.body);
+  console.log(`userData.rows = ${userData.rows}`);
+  console.log(`Object.keys(userData.rows) = ${Object.keys(userData.rows)}`);
   if (userData.rows[0] === undefined) {
     const verificationString = uuid();
     req.body.VerificationString = verificationString;
