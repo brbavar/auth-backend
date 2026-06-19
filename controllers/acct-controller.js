@@ -83,16 +83,16 @@ const verifyEmail = async (req, res) => {
   req.body.IsVerified = true;
 
   changeUserData(req.body);
-  console.log(`userData = ${userData}`);
-  console.log(`Object.keys(userData) = ${Object.keys(userData)}`);
-  // console.log(`userData.fields[0] = ${userData.fields[0]}`);
-  // console.log(
-  //   `Object.keys(userData.fields[0]) = ${Object.keys(userData.fields[0])}`,
-  // );
-  console.log(`userData.fields[0].name = ${userData.fields[0].name}`);
-  // console.log(`userData.rows = ${userData.rows}`); // There appear to be no rows
+  // console.log(`userData = ${userData}`);
+  // console.log(`Object.keys(userData) = ${Object.keys(userData)}`);
+  // // console.log(`userData.fields[0] = ${userData.fields[0]}`);
+  // // console.log(
+  // //   `Object.keys(userData.fields[0]) = ${Object.keys(userData.fields[0])}`,
+  // // );
+  // console.log(`userData.fields[0].name = ${userData.fields[0].name}`);
+  // // console.log(`userData.rows = ${userData.rows}`); // There appear to be no rows
 
-  // console.log(`req.body.Email = ${req.body.Email}`);
+  // // console.log(`req.body.Email = ${req.body.Email}`);
   jwt.sign(
     { Email: req.body.Email, IsVerified: true },
     process.env.JWT_SECRET,
