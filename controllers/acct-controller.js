@@ -85,8 +85,8 @@ const verifyEmail = async (req, res) => {
   changeUserData(req.body);
   console.log(`userData = ${userData}`);
   console.log(`Object.keys(userData) = ${Object.keys(userData)}`);
-  console.log(`userData.fields = ${userData.fields}`);
-  console.log(`Object.keys(userData.fields) = ${Object.keys(userData.fields)}`);
+  console.log(`userData.fields[0] = ${userData.fields[0]}`);
+  // console.log(`Object.keys(userData.fields) = ${Object.keys(userData.fields)}`);
   // console.log(`userData.email = ${userData.email}`);
   console.log(`req.body.Email = ${req.body.Email}`);
   jwt.sign(
