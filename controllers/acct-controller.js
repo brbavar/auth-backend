@@ -85,6 +85,7 @@ const verifyEmail = async (req, res) => {
   changeUserData(req.body);
   console.log(`userData = ${userData}`);
   console.log(`userData.email = ${userData.email}`);
+  console.log(`req.body.Email = ${req.body.Email}`);
   jwt.sign(
     { Email: userData.email, IsVerified: true },
     process.env.JWT_SECRET,
