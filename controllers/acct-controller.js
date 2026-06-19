@@ -89,7 +89,7 @@ const verifyEmail = async (req, res) => {
   // console.log(
   //   `Object.keys(userData.fields[0]) = ${Object.keys(userData.fields[0])}`,
   // );
-  console.log(`userData.fields[0].names = ${userData.fields[0].names}`);
+  console.log(`userData.fields[0].name = ${userData.fields[0].name}`);
   // console.log(`userData.rows = ${userData.rows}`); // There appear to be no rows
 
   // console.log(`req.body.Email = ${req.body.Email}`);
