@@ -83,8 +83,10 @@ const verifyEmail = async (req, res) => {
   req.body.IsVerified = true;
 
   changeUserData(req.body);
+  console.log(`userData = ${userData}`);
+  console.log(`userData.email = ${userData.email}`);
   jwt.sign(
-    { Email: email, IsVerified: true },
+    { Email: userData.email, IsVerified: true },
     process.env.JWT_SECRET,
     { expiresIn: '2d' },
     (err, token) => {
