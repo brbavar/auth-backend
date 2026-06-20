@@ -91,6 +91,7 @@ const verifyEmail = async (req, res) => {
 
   // const email = resToGetUserData.Email;
   // req.body.Email = email;
+  req.body.Email = userData.rows[0].email;
 
   // // req.body.AttributeName = 'IsVerified';
   req.body.ColumnName = 'is_verified';
