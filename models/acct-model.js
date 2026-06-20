@@ -65,13 +65,13 @@ const getUserData = async (reqPayload) => {
   //   return;
   // }
 
-  const condition = reqPayload.Condition || '1 = 1';
+  const condition = reqPayload.Condition || '1=1';
   // const res = await client.query(
   //   `SELECT * FROM users WHERE email = '${reqPayload.email}' AND ${condition};`,
   // );
   console.log(`reqPayload.Email = ${reqPayload.Email}`);
   const res = await pool.query(
-    `SELECT * FROM users WHERE ${reqPayload.Email === undefined ? '' : `email = ${reqPayload.Email} AND `}${condition};`,
+    `SELECT * FROM users WHERE ${reqPayload.Email === undefined ? '' : `email='${reqPayload.Email}' AND `}${condition};`,
   );
 
   // await client.end();

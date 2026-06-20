@@ -79,7 +79,7 @@ const createAcct = async (req, res) => {
 };
 
 const verifyEmail = async (req, res) => {
-  req.body.Condition = `verification_string = '${req.body.VerificationString}'`;
+  req.body.Condition = `verification_string='${req.body.VerificationString}'`;
 
   // const resToGetUserData = await getUserData(req.body);
   // if (!resToGetUserData)
