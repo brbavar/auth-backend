@@ -96,8 +96,11 @@ const changeUserData = async (reqPayload) => {
   // await client.query(
   //   `UPDATE users SET ${col} = ${maybeQuote}${reqPayload[`${snakeToPascal(col)}`]}${maybeQuote} WHERE email = '${reqPayload.Email}';`,
   // );
+  console.log(
+    `UPDATE users SET ${col} = ${maybeQuote}${reqPayload[`${snakeToPascal(col)}`]}${maybeQuote} WHERE email='${reqPayload.Email}';`,
+  );
   await pool.query(
-    `UPDATE users SET ${col} = ${maybeQuote}${reqPayload[`${snakeToPascal(col)}`]}${maybeQuote} WHERE email = '${reqPayload.Email}';`,
+    `UPDATE users SET ${col} = ${maybeQuote}${reqPayload[`${snakeToPascal(col)}`]}${maybeQuote} WHERE email='${reqPayload.Email}';`,
   );
 
   // await client.end();
