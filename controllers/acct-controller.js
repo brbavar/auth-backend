@@ -20,20 +20,20 @@ const createAcct = async (req, res) => {
   // const resToGetUserData = await getUserData(req.body);
   // let userData = resToGetUserData.Item;
   const userData = await getUserData(req.body);
-  console.log(`userData.rows = ${userData.rows}`);
-  console.log(`Object.keys(userData.rows) = ${Object.keys(userData.rows)}`);
-  console.log(`userData.rows[0] = ${userData.rows[0]}`);
-  console.log(
-    `Object.keys(userData.rows[0]) = ${Object.keys(userData.rows[0])}`,
-  );
-  console.log(`userData.rows[0].email = ${userData.rows[0].email}`);
-  console.log(`userData.rows[0].first_name = ${userData.rows[0].first_name}`);
-  console.log(`userData.rows[0].last_name = ${userData.rows[0].last_name}`);
-  console.log(`userData.rows[0].password = ${userData.rows[0].password}`);
-  console.log(
-    `userData.rows[0].verification_string = ${userData.rows[0].verification_string}`,
-  );
-  console.log(`userData.rows[0].is_verified = ${userData.rows[0].is_verified}`);
+  // console.log(`userData.rows = ${userData.rows}`);
+  // console.log(`Object.keys(userData.rows) = ${Object.keys(userData.rows)}`);
+  // console.log(`userData.rows[0] = ${userData.rows[0]}`);
+  // console.log(
+  //   `Object.keys(userData.rows[0]) = ${Object.keys(userData.rows[0])}`,
+  // );
+  // console.log(`userData.rows[0].email = ${userData.rows[0].email}`);
+  // console.log(`userData.rows[0].first_name = ${userData.rows[0].first_name}`);
+  // console.log(`userData.rows[0].last_name = ${userData.rows[0].last_name}`);
+  // console.log(`userData.rows[0].password = ${userData.rows[0].password}`);
+  // console.log(
+  //   `userData.rows[0].verification_string = ${userData.rows[0].verification_string}`,
+  // );
+  // console.log(`userData.rows[0].is_verified = ${userData.rows[0].is_verified}`);
   if (userData.rows[0] === undefined) {
     const verificationString = uuid();
     req.body.VerificationString = verificationString;
